@@ -17,7 +17,7 @@ namespace ResumeTestAPI.Controllers
 		public Student Get(int id)
 		{
 
-			return Student.GiveMeAStudent();
+			return Student.GiveMeAStudent(id);
 		}
 
 	}

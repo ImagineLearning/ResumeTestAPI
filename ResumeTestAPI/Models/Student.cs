@@ -20,7 +20,7 @@ namespace ResumeTestAPI.Models
 		private static readonly string[] FavoriteMovies = { "The Incredibles", "Star Wars Episode 1", "Aladdin", "Oliver and Company", "The Rescuers", "Hercules", "Big Hero 6", "Zootopia" };
 		 
 
-		public static Student GiveMeAStudent()
+		public static Student GiveMeAStudent(int id = -1)
 		{
 			return new Student()
 			{
@@ -29,7 +29,7 @@ namespace ResumeTestAPI.Models
 				FavoriteFood = FavoriteFoods[RandomNumber.Next(0, FavoriteFoods.Length)],
 				FavoriteColor = FavoriteColors[RandomNumber.Next(0, FavoriteColors.Length)],
 				FavoriteMovie = FavoriteMovies[RandomNumber.Next(0, FavoriteMovies.Length)],
-				Id = RandomNumber.Next(1, 40000)
+				Id = id == -1 ? RandomNumber.Next(1, 40000) : id
 			};
 		}
 
