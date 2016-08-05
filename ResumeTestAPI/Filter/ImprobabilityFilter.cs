@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
@@ -17,7 +18,20 @@ namespace ResumeTestAPI.Filter
 
 		public override void OnActionExecuting(HttpActionContext actionContext)
 		{
-			var result = _improbability.DidIGetUnluckyWithA503();
+			HttpResponseMessage result = null;
+			//provide some 400s during a post
+			if (actionContext.Request.Method == HttpMethod.Post)
+			{
+				result = _improbability.DidIGetUnluckyWithA400();
+			}
+
+			//add in some 503s on occasion
+			if (result == null)
+			{
+				result = _improbability.DidIGetUnluckyWithA503();
+			}
+
+			//send back errors if we did get one of the above scenarios
 			if (result != null)
 			{
 				throw new HttpResponseException(result.StatusCode);
@@ -27,6 +41,11 @@ namespace ResumeTestAPI.Filter
 		public override async void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
 		{
 			base.OnActionExecuted(actionExecutedContext);
+
+			if (actionExecutedContext.Response.StatusCode == HttpStatusCode.NoContent)
+			{
+				return;
+			}
 
 			var responseString = await actionExecutedContext.Response.Content.ReadAsStringAsync();
 			if (responseString == null) return;

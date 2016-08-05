@@ -23,6 +23,20 @@ namespace ResumeTestAPI.Service
 			return null;
 		}
 
+		public HttpResponseMessage DidIGetUnluckyWithA400()
+		{
+			var randomNumber = RandomNumber.Next(1, 10);
+			if (randomNumber == 1)
+			{
+				//aww man a 400
+				var response = new HttpResponseMessage();
+				response.StatusCode = HttpStatusCode.BadRequest;
+				return response;
+			}
+
+			return null;
+		}
+
 		const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		public string DoubleCheckMyJson(string json)
 		{

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using ResumeTestAPI.Models;
 using ResumeTestAPI.Service;
@@ -18,6 +20,11 @@ namespace ResumeTestAPI.Controllers
 		{
 
 			return Student.GiveMeAStudent(id);
+		}
+
+		public HttpResponseMessage Post()
+		{
+			return new HttpResponseMessage(HttpStatusCode.NoContent);
 		}
 
 	}
